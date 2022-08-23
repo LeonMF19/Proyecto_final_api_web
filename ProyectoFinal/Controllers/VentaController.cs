@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProyectoFinal.Controllers.DTOS;
 using ProyectoFinal.Model;
 using ProyectoFinal.Repository;
 
@@ -17,7 +18,15 @@ namespace ProyectoFinal.Controllers
             return VentaHandler.GetVentas();
 
         }
+        [HttpPost]
+        public bool InsertVenta([FromBody] PostVenta venta)
+        {
+            return VentaHandler.InsertVenta(new Venta
+            {
+                Comentario = venta.Comentario
 
+            }) ;
+        }
 
     }
 }

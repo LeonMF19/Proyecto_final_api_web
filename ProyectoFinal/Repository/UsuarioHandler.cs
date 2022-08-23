@@ -93,7 +93,119 @@ namespace ProyectoFinal.Repository
             return usuarioEncontrado;
         }
 
+        public static bool DeleteUsuario(int id)
+        {
+            bool result = false;
+            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            {
+                string queryDelete = "DELETE FROM Usuario WHERE Id = @id";
 
-    
+                SqlParameter sqlParameter = new SqlParameter("id", System.Data.SqlDbType.BigInt);
+
+                sqlParameter.Value = id;
+
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = new SqlCommand(queryDelete, sqlConnection))
+                {
+                    sqlCommand.Parameters.Add(sqlParameter);
+                    int numberOfRows=sqlCommand.ExecuteNonQuery();
+
+                    if (numberOfRows > 0)
+                    {
+                        result =  true;
+                    }
+
+                }
+
+                sqlConnection.Close();
+            }
+
+            return result;
+                
+        }
+
+        public static bool InsertUsuario( Usuario usuario)
+        {
+            bool result = false;
+          
+            using (SqlConnection sqlConnection = new SqlConnection)
+            {
+                string queryInsert = "INSERT INTO [SistemaGestion].[dbo].[usuario] (Nombre,Apellido,NombreUsuario,Contraseña,Mail) VALUES (@nombreParameter, @apellidoParameter,@nombreUsuarioParameter,@contraseñaParameter,@emailParameter)";
+                    
+                SqlParameter nombreParameter = new SqlParameter("Nombre", SqlDbType.VarChar) {Value=usuario.Nombre};
+                SqlParameter apellidoParameter = new SqlParameter("Apellido", SqlDbType.VarChar) { Value = usuario.Apellido};
+                SqlParameter nombreUsuarioParameter = new SqlParameter("NombreUsuario", SqlDbType.VarChar) { Value = usuario.NombreUsuario};
+                SqlParameter contraseñaParameter = new SqlParameter("Contraseña", SqlDbType.VarChar) { Value = usuario.Contraseña };
+                SqlParameter emailParameter = new SqlParameter("Email", SqlDbType.VarChar) { Value = usuario.Email };
+
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = new SqlCommand(queryInsert, sqlConnection))
+                {
+                    sqlCommand.Parameters.Add(nombreParameter);
+                    sqlCommand.Parameters.Add(apellidoParameter);
+                    sqlCommand.Parameters.Add(nombreUsuarioParameter);
+                    sqlCommand.Parameters.Add(contraseñaParameter);
+                    sqlCommand.Parameters.Add(emailParameter);
+
+                    int numberOfRows = sqlCommand.ExecuteNonQuery();
+
+                    if (numberOfRows > 0)
+                    {
+                        result = true;
+                    }
+
+                }
+
+                sqlConnection.Close();
+            
+            }
+
+            return result;
+
+        }
+
+        public static bool UpdateUsuario (Usuario usuario)
+        {
+            bool result = false;
+
+            using (SqlConnection sqlConnection = new SqlConnection)
+            {
+                string queryInsert = "UPDATE [SistemaGestion].[dbo].[usuario] SET Nombre=@nombreParameter,Apellido=@apellidoParameter,NombreUsuario=@nombreUsuarioParameter,Contraseña=@contraseñaParameter,Mail=@emailParameter WHERE Id=@idParameter";
+
+                SqlParameter idParameter = new SqlParameter("Id", SqlDbType.VarChar) { Value = usuario.Id };
+                SqlParameter nombreParameter = new SqlParameter("Nombre", SqlDbType.VarChar) { Value = usuario.Nombre };
+                SqlParameter apellidoParameter = new SqlParameter("Apellido", SqlDbType.VarChar) { Value = usuario.Apellido };
+                SqlParameter nombreUsuarioParameter = new SqlParameter("NombreUsuario", SqlDbType.VarChar) { Value = usuario.NombreUsuario };
+                SqlParameter contraseñaParameter = new SqlParameter("Contraseña", SqlDbType.VarChar) { Value = usuario.Contraseña };
+                SqlParameter emailParameter = new SqlParameter("Email", SqlDbType.VarChar) { Value = usuario.Email };
+
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = new SqlCommand(queryInsert, sqlConnection))
+                {
+                    sqlCommand.Parameters.Add(nombreParameter);
+                    sqlCommand.Parameters.Add(apellidoParameter);
+                    sqlCommand.Parameters.Add(nombreUsuarioParameter);
+                    sqlCommand.Parameters.Add(contraseñaParameter);
+                    sqlCommand.Parameters.Add(emailParameter);
+
+                    int numberOfRows = sqlCommand.ExecuteNonQuery();
+
+                    if (numberOfRows > 0)
+                    {
+                        result = true;
+                    }
+
+                }
+
+                sqlConnection.Close();
+
+            }
+
+            return result;
+        }
     }
+
 }
